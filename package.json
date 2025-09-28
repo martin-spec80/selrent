@@ -1,0 +1,9 @@
+{
+  "name": "selrent-site",
+  "private": true,
+  "version": "1.0.1",
+  "type": "module",
+  "dependencies": {
+    "openai": "^4.56.0"
+  }
+}

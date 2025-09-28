@@ -1,0 +1,24 @@
+:root { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; line-height: 1.5; }
+.container { max-width: 1000px; margin: 0 auto; padding: 16px; }
+.header { padding-top: 12px; padding-bottom: 24px; }
+.brand { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.logo { font-weight:700; font-size:1.2rem; letter-spacing:0.5px; }
+nav a { margin-left: 16px; text-decoration:none; }
+.hero { padding: 24px 0; }
+.cta { display:inline-block; padding:12px 16px; border:1px solid #333; border-radius:8px; text-decoration:none; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.cards { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0; list-style:none; }
+.cards li { border:1px solid #e5e5e5; padding:12px; border-radius:8px; background:#fafafa; }
+.table { border:1px solid #e5e5e5; border-radius:8px; overflow:hidden; }
+.row { display:grid; grid-template-columns:2fr 1fr 2fr; border-top:1px solid #eee; padding:10px; }
+.row.head { background:#f5f5f5; font-weight:600; border-top:none; }
+label { display:block; margin:8px 0; }
+input, select, textarea, button { width:100%; padding:10px; }
+button { cursor:pointer; }
+.muted { color:#666; }
+.small { font-size:0.9rem; }
+.chatbox { border:1px solid #e5e5e5; height:320px; overflow:auto; padding:10px; border-radius:8px; background:#fff; }
+.bubble { padding:10px 12px; margin:6px 0; border-radius:10px; }
+.bubble.user { background:#eef3ff; }
+.bubble.assistant { background:#eef9ef; }
+@media (max-width: 900px) { .grid { grid-template-columns:1fr; } .cards { grid-template-columns:1fr; } }

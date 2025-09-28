@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Selrent GmbH – Lagerplätze & Container mieten | selrent.at</title>
+  <meta name="description" content="Sichere Lagerplätze für Autos, Campingwagen, Boote sowie Lagercontainer. Flexibel, sauber, überwacht. Jetzt Verfügbarkeit anfragen.">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="container header">
+    <div class="brand">
+      <div class="logo">Selrent</div>
+      <nav><a href="#preise">Preise</a><a href="#faq">FAQ</a><a href="/impressum.html">Impressum</a></nav>
+    </div>
+    <div class="hero">
+      <h1>Sicherer Lagerplatz für Auto, Camper & Boot</h1>
+      <p>Selrent GmbH vermietet Einstellplätze und Lagercontainer – sauber, trocken, sicher. Monatlich kündbar.</p>
+      <a class="cta" href="#anfrage">Verfügbarkeit anfragen</a>
+    </div>
+  </header>
+
+  <main class="container grid">
+    <section>
+      <h2>Unsere Angebote</h2>
+      <ul class="cards">
+        <li><h3>PKW / Oldtimer</h3><p>Überdacht oder Halle. Optional Strom.</p></li>
+        <li><h3>Campingwagen & Wohnmobile</h3><p>Große Einfahrtshöhen, breite Rangierflächen.</p></li>
+        <li><h3>Boote & Anhänger</h3><p>Trockene Einstellplätze, Saison & ganzjährig.</p></li>
+        <li><h3>Lagercontainer</h3><p>Verschiedene Größen. Trocken & sicher.</p></li>
+      </ul>
+    </section>
+
+    <section id="preise">
+      <h2>Beispielpreise</h2>
+      <div class="table">
+        <div class="row head"><div>Kategorie</div><div>ab / Monat</div><div>Hinweis</div></div>
+        <div class="row"><div>PKW / Oldtimer</div><div>€ xx</div><div>Innen/Außen</div></div>
+        <div class="row"><div>Camper / Wohnmobil</div><div>€ xx</div><div>Höhe bis x,x m</div></div>
+        <div class="row"><div>Boot / Trailer</div><div>€ xx</div><div>Saison- oder Ganzjahresplatz</div></div>
+        <div class="row"><div>Lagercontainer</div><div>€ xx</div><div>z. B. 10/20 Fuß</div></div>
+      </div>
+      <p class="muted">Konkrete Preise je nach Größe/Verfügbarkeit. Frag kurz an – wir antworten schnell.</p>
+    </section>
+
+    <section id="anfrage">
+      <h2>Verfügbarkeit anfragen</h2>
+      <form id="leadForm">
+        <label>Dein Name <input required name="name"></label>
+        <label>E-Mail <input type="email" required name="email"></label>
+        <label>Was möchtest du einlagern?
+          <select name="category">
+            <option>PKW/Oldtimer</option><option>Camper/Wohnmobil</option>
+            <option>Boot/Trailer</option><option>Lagercontainer</option>
+          </select>
+        </label>
+        <label>Bemerkung <textarea name="note" placeholder="Maße, Zeitraum, Besonderheiten"></textarea></label>
+        <button type="submit">Anfrage senden</button>
+        <p id="leadMsg" class="muted"></p>
+      </form>
+      <p class="small">Oder per E-Mail: <a href="mailto:office@selrent.at">office@selrent.at</a></p>
+    </section>
+
+    <section id="faq">
+      <h2>KI-FAQ</h2>
+      <div id="chat" class="chatbox" aria-live="polite"></div>
+      <form id="chatForm" class="row" autocomplete="off">
+        <input id="chatInput" placeholder="Frag z. B.: Gibt es 24/7 Zugang?" />
+        <button>Senden</button>
+      </form>
+      <p class="muted">Hinweis: Antworten werden automatisch generiert und können unvollständig sein.</p>
+    </section>
+  </main>
+
+  <footer class="container small">
+    <p>© Selrent GmbH, Unterrohr 385, 8294 Unterrohr • Tel: +43 (0)664 445 6867 • <a href="/impressum.html">Impressum</a> • <a href="/datenschutz.html">Datenschutz</a> • <a href="mailto:office@selrent.at">office@selrent.at</a></p>
+  </footer>
+
+  <script>
+    // Lead-Form – in Produktion per API/Mail weiterleiten
+    document.getElementById("leadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      document.getElementById("leadMsg").textContent = "Danke! Wir melden uns rasch bei dir.";
+      e.target.reset();
+    });
+
+    // KI-FAQ Chat
+    const chatDiv = document.getElementById("chat");
+    const chatForm = document.getElementById("chatForm");
+    const chatInput = document.getElementById("chatInput");
+    const messages = [];
+    const push = (role, content) => {
+      messages.push({ role, content });
+      const b = document.createElement("div");
+      b.className = "bubble " + role;
+      b.textContent = content;
+      chatDiv.appendChild(b);
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+    };
+    chatForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const text = chatInput.value.trim();
+      if (!text) return;
+      push("user", text);
+      chatInput.value = "";
+      push("assistant", "…denke nach…");
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages })
+        });
+        const data = await res.json();
+        chatDiv.lastChild.textContent = data.reply || "Fehler.";
+        messages.push({ role: "assistant", content: data.reply });
+      } catch { chatDiv.lastChild.textContent = "Netzwerkfehler."; }
+    });
+  </script>
+</body>
+</html>
